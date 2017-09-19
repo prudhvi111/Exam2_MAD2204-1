@@ -110,12 +110,125 @@ INSERT INTO Package VALUES(5, 1, 'Undeclared', 100.0, 5, 1);
 Create all select queries as VIEW Object and name it as v1...vn
 
 Q1) Display employess who name is "Turanga Leela" along with its shipment dertails.
+create view v1 as select * from employee e inner join shipment s on e.EMPLOYEEID=S.MANAGER where name ="turanga leela";
+select * from v1;
+ +------------+---------------+----------+--------+---------+------------+--------------+---------+--------+
+| EmployeeID | Name          | Position | Salary | Remarks | ShipmentID | ShipmentDate | Manager | Planet |
++------------+---------------+----------+--------+---------+------------+--------------+---------+--------+
+|          2 | Turanga Leela | Captain  |  10000 | NULL    |          3 | NULL         |       2 |      3 |
+|          2 | Turanga Leela | Captain  |  10000 | NULL    |          4 | NULL         |       2 |      4 |
++------------+---------------+----------+--------+---------+------------+--------------+---------+--------+
 Q2) List those packages which are intented for client whose ids are 1,5 or 6
+
+ select * from package where recipient in(1,5,6);
+ create view v2 as select * from package where recipient in(1,5,6);
+ +----------+---------------+------------+--------+--------+-----------+
+| Shipment | PackageNumber | Contents   | Weight | Sender | Recipient |
++----------+---------------+------------+--------+--------+-----------+
+|        3 |             2 | Undeclared |   3.00 |      5 |         1 |
+|        4 |             1 | Undeclared |   5.00 |      4 |         5 |
+|        5 |             1 | Undeclared | 100.00 |      5 |         1 |
++----------+---------------+------------+--------+--------+-----------+
 Q3) Display name of emnployee and plant which are cleared
+
+ select e.name,p.planetid from employee e INNER JOIN has_clearance h ON e.employeeid=h.employee INNER JOIN planet p on h.planet=p.planetid;
+ 
+  create view v3 as select e.name,p.planetid from employee e INNER JOIN has_clearance h ON e.employeeid=h.employee INNER JOIN planet p on h.planet=p.planetid;
+  
+  +--------------------------+----------+
+| name                     | planetid |
++--------------------------+----------+
+| Phillip J. Fry           |        1 |
+| Phillip J. Fry           |        2 |
+| Turanga Leela            |        3 |
+| Turanga Leela            |        4 |
+| Bender Bending Rodriguez |        5 |
+| Bender Bending Rodriguez |        6 |
+| Hubert J. Farnsworth     |        7 |
++--------------------------+----------+
 Q4) Display details of shipment data (Month, Day YYYY), sender and receiver name whose package weight is between 5 and 10
+
+ select s.shipmentdate,p.sender,p.recipient from shipment s INNER JOIN package p on s.shipmentid=p.shipment where weight between 5 and 10;
+ create view  v4 as select s.shipmentdate,p.sender,p.recipient from shipment s INNER JOIN package p on s.shipmentid=p.shipment where weight between 5 and 10;
+Query OK, 0 rows affected (0.05 sec)
+select * from v4;
++--------------+--------+-----------+
+| shipmentdate | sender | recipient |
++--------------+--------+-----------+
+| 3004-05-11   |      2 |         3 |
+| NULL         |      2 |         3 |
+| NULL         |      4 |         5 |
++--------------+--------+-----------+
+3 rows in set (0.00 sec)
+
 Q5) Give details of those shipments which are currently processed at plant name "Mars" or "Amazonia"
+
+select * from  shipment s INNER JOIN planet p ON s.planet=p.planetid where name ='mars' or 'Amazonia';
+ create view v5 as select * from  shipment s INNER JOIN planet p ON s.planet=p.planetid where name ='mars' or 'Amazonia';
+ select * from v5;
++------------+--------------+---------+--------+----------+------+----------------+
+| ShipmentID | ShipmentDate | Manager | Planet | PlanetID | Name | Coordinates    |
++------------+--------------+---------+--------+----------+------+----------------+
+|          3 | NULL         |       2 |      3 |        3 | Mars | 32435021.65468 |
++------------+--------------+---------+--------+----------+------+----------------+
+1 row in set, 6 warnings (0.00 sec)
+
 Q6) List client names whose pakages are "Undeclared"
+ select c.name from client c INNER JOIN package p ON c.accountnumber=p.sender where contents='undeclared';
+ create view v6 as select c.name from client c INNER JOIN package p ON c.accountnumber=p.sender where contents='undeclared';
+Query OK, 0 rows affected (0.05 sec)
+ select * from v6;
++-----------------+
+| name            |
++-----------------+
+| Zapp Brannigan  |
+| Al Gore's Head  |
+| Barbados Slim   |
+| Leo Wong        |
+| Al Gore's Head  |
+| Ogden Wernstrom |
+| Zapp Brannigan  |
+| Leo Wong        |
++-----------------+
+ 
 Q7) Display those employees details containing salary format as $2,700.00
+
+create view v7 as select employees e inner join salary on e.EMPLOYEEID=S;
++-----------------+
+| name            |
++-----------------+
+| Zapp Brannigan  |
+| Al Gore's Head  |
+| Barbados Slim   |
+| Leo Wong        |
+| Al Gore's Head  |
+| Ogden Wernstrom |
+| Zapp Brannigan  |
+| Leo Wong        |
++-----------------+
+
+
 Q8) Write query to Add remarks of those employee which are never remarked before.
+
+
+
+
+
 Q9) Display employee details in following format "Phillip J. Fry is Delivery boy and earns $7,500.00/month"
+
+
+
+
+
+
 Q10) Update shipment date to current date for all data having NULL value
+
+
+
+
+
+
+
+
+
+
